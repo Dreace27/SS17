@@ -1,0 +1,17 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;"><span style="color:#f00;">Sorry, aber das Programm soll ohne Argumente die IDs des aufrufenden Nutzers ausgeben. Eures st&uuml;rzt dann einfach ab :(
+</span>
+#include &lt;stdio.h&gt;
+//#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;pwd.h&gt;
+
+int main(int argc, char **argv){
+    struct passwd *pwd;
+    char *person = argv[1];
+    pwd = getpwnam(person);
+    printf(&quot;%s\tuser: %d\n&quot;, person, pwd-&gt;pw_uid);
+    printf(&quot;%s\tgroup: %d\n&quot;, person, pwd-&gt;pw_gid);
+    return 0;
+}
+</span></pre></body></html>
