@@ -11,3 +11,5 @@
 
 3.) Man kann in C Strings nicht mit == bzw != vergleichen, weil diese Operatoren nur die Adressen von den Strings vergleichen und nicht
     den Inhalt der Strings selbst.
+
+4.)
