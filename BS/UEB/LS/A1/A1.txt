@@ -1,0 +1,13 @@
+Übungsaufgabe 1:
+
+1.) Der Befehl ls | wc -1 gibt die Anzahl der Dateien in einem Verzeichnis aus.
+    ls selbst gibt den Inhalt von Verzeichnissen und Ordnern an und der Befehl wc steht für word count.
+
+2.) #include <datei>: Diese Variante wird für die Header-Dateien verwendet. Es wird in den Standard Systemverzeichnissen
+    nach der Datei die in <...> angegeben wurde gesucht.
+
+    #include "datei": Hierbei wird nach den Header-Dateien im Programm gesucht. Es wird im Verzeichnis wo sich die aktuelle Programm
+    befindet nach der Datei die in "..." angegeben wurde gesucht.
+
+3.) Man kann in C Strings nicht mit == bzw != vergleichen, weil diese Operatoren nur die Adressen von den Strings vergleichen und nicht
+    den Inhalt der Strings selbst.
