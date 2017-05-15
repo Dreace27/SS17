@@ -13,3 +13,10 @@
     den Inhalt der Strings selbst.
 
 4.)
+    a) Bei dem C-Code Schnipsel "for(;;) fork()" handelt es sich um eine Endlosschleife. Durch fork() entsteht
+       immer wieder ein neuer Prozess.
+
+       Nach 1 Generation sind es: 2 Prozesse
+       Nach 2 Generationen: 4 Prozesse
+       Nach 3 Generationen: 8 Prozesse
+       Und nach n Generationen: 2 hoch n Prozesse
