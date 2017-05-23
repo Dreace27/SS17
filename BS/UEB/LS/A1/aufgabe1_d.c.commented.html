@@ -1,0 +1,101 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pwd.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;signal.h&gt;
+
+int main(void){
+    struct passwd *pwd = getpwuid(geteuid());
+    char hostname[HOST_NAME_MAX] = &quot;\0&quot;;
+    char path[PATH_MAX] = &quot;\0&quot;;
+    char method[256];
+    char args[256];
+
+    gethostname(hostname, HOST_NAME_MAX);
+
+    int newPid = 0;    
+    int status = 0;
+    int rVal = 0;
+
+    int parentId = getpid();
+
+    while(1){
+        getcwd(path, PATH_MAX);
+        printf(&quot;%s@%s %s$ &quot;, pwd-&gt;pw_name, hostname, path);
+        scanf(&quot;%s %s&quot;, <span style="background-color:yellow;">&amp;</span>method, <span style="background-color:yellow;">&amp;</span>args);
+        newPid = fork();
+        if(strcmp(method,&quot;cd&quot;) == 0){ </span><span style="font-family: monospace; font-size:medium;"><span style="font-family: monospace; font-size:medium;"><strong><span style="color:red;">// Wieso strcmp()? In der &Uuml;bung wurde strncmp() vorgestellt und das sollte man auch benutzen.</span></strong></span>
+            if(newPid == 0){
+                rVal = chdir(args);
+                if(rVal &lt; 0){
+                    printf(&quot;passed illegal arguments\n&quot;);
+                }
+            }else{
+                waitpid(newPid, &amp;status, 0);
+            }
+        }else if(strcmp(method,&quot;ls&quot;) == 0){
+            if(newPid==0){
+                rVal = execlp(&quot;ls&quot;, method, args, path);
+                if(rVal &lt; 0){
+                    printf(&quot;passed illegal arguments\n&quot;);
+                }
+            }else{
+                waitpid(newPid, &amp;status, 0);
+            }
+        }else if(strcmp(method,&quot;exit&quot;) == 0){
+            // I have no idea what I&#39;m doing
+            // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+            // ░░░░░░░░░░░░░▄▄▄▄▄▄▄░░░░░░░░░
+            // ░░░░░░░░░▄▀▀▀░░░░░░░▀▄░░░░░░░
+            // ░░░░░░░▄▀░░░░░░░░░░░░▀▄░░░░░░
+            // ░░░░░░▄▀░░░░░░░░░░▄▀▀▄▀▄░░░░░
+            // ░░░░▄▀░░░░░░░░░░▄▀░░██▄▀▄░░░░
+            // ░░░▄▀░░▄▀▀▀▄░░░░█░░░▀▀░█▀▄░░░
+            // ░░░█░░█▄▄░░░█░░░▀▄░░░░░▐░█░░░
+            // ░░▐▌░░█▀▀░░▄▀░░░░░▀▄▄▄▄▀░░█░░
+            // ░░▐▌░░█░░░▄▀░░░░░░░░░░░░░░█░░
+            // ░░▐▌░░░▀▀▀░░░░░░░░░░░░░░░░▐▌░
+            // ░░▐▌░░░░░░░░░░░░░░░▄░░░░░░▐▌░
+            // ░░▐▌░░░░░░░░░▄░░░░░█░░░░░░▐▌░
+            // ░░░█░░░░░░░░░▀█▄░░▄█░░░░░░▐▌░
+            // ░░░▐▌░░░░░░░░░░▀▀▀▀░░░░░░░▐▌░
+            // ░░░░█░░░░░░░░░░░░░░░░░░░░░█░░
+            // ░░░░▐▌▀▄░░░░░░░░░░░░░░░░░▐▌░░
+            // ░░░░░█░░▀░░░░░░░░░░░░░░░░▀░░░
+            // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+            /<span style="color:#f00;">/ ░░░░▄▄██▀▀▀▀▀▀▀█▄░░░░░░░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░░▄▀▀░░░░░░░░░░░░▀█▄░░░░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░█▀░░░░░░░░░░░░░░░░█▄░░░
+<span style="font-family: monospace; font-size: medium;">            </span>// ▄█░░░▄▄▄█▄▄░░▄░░░░░░█░░░
+<span style="font-family: monospace; font-size: medium;">            </span>// █░░░▀██▀▀▀░██▄█░░░░░▀█░░
+<span style="font-family: monospace; font-size: medium;">            </span>// █░░░░░▄░░▀▄▄░░░░▄░░░░▀█░
+<span style="font-family: monospace; font-size: medium;">            </span>// █▀░████░░░░████░▀░░░░░█░
+<span style="font-family: monospace; font-size: medium;">            </span>// █░░▀███░░░░███▀░░░░░░░█▄
+<span style="font-family: monospace; font-size: medium;">            </span>// █░░▄░▀▀░░░░▀▀░░▄░░░░░░██
+<span style="font-family: monospace; font-size: medium;">            </span>// ▀█░░█▀░▄▄░░█░▀▀░░░░░░░█▀
+<span style="font-family: monospace; font-size: medium;">            </span>// ░▀█░░░░█▀▀▀▀▀▀▄░░░░░░░█░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░░█░░░█░░▄▄▄▄░▄█░░░░░▄█░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░░▀█░░██▀▀██▀▀▀█▀░░░▄█░░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░░░▀█▄░░░░░░░░▄░░░░▄█░░░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░░░░░▀▄▄▀██████░░▄█▀░░░░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░░░░░░░▀█▄▄▄▄▄▄▄█▀░░░░░░
+<span style="font-family: monospace; font-size: medium;">            </span>// ░░okay░░░▄▄████▄░░░░░░░░</span>
+            printf(&quot;all processes ended with note/ initialized return value: %s&quot;, args);
+            kill(0, SIGTERM);
+            <strong><span style="color:red;">// Einfach exit(args)... &Uuml;bungsfolien!</span></strong>
+        }else{
+            printf(&quot;passed illegal arguments\n&quot;);
+        }
+    }
+    return 1;
+}
+
+<strong><span style="color:red;">// Ich geb euch hier mal noch 0,5P, weil es mit korrigiertem exit() und den &amp; in scanf cd irgendwie einigerma&szlig;en funktioniert...</span></strong>
+
+</span></pre></body></html>

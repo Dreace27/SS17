@@ -1,0 +1,38 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;">&Uuml;bungsaufgabe 1:
+
+1.) Der Befehl ls | wc -1 gibt die Anzahl der Dateien <strong><span style="color:red;">und Ordner</span></strong> in einem Verzeichnis aus.
+    ls selbst gibt den Inhalt von Verzeichnissen und Ordnern an und der Befehl wc steht f&uuml;r word count. <strong><span style="color:red;">Was machen denn | und -l?
+0,5P</span></strong>
+
+2.) #include &lt;datei&gt;: Diese Variante wird f&uuml;r die Header-Dateien verwendet. Es wird in den Standard Systemverzeichnissen
+    nach der Datei die in &lt;...&gt; angegeben wurde gesucht.
+
+    #include &quot;datei&quot;: Hierbei wird nach den Header-Dateien im Programm gesucht. Es wird im Verzeichnis wo sich die aktuelle Programm
+    befindet nach der Datei die in &quot;...&quot; angegeben wurde gesucht.
+<strong><span style="color:red;">Passt. 1P</span></strong>
+
+3.) Man kann in C Strings nicht mit == bzw != vergleichen, weil diese Operatoren nur die Adressen von den Strings vergleichen und nicht
+    den Inhalt der Strings selbst.
+<strong><span style="color:red;">Ja, aber warum vergleichen die Operatoren denn ausgerechnet bei Strings nur die Adresse? 0,5P</span></strong>
+
+4.)
+    a) Bei dem C-Code Schnipsel &quot;for(;;) fork()&quot; handelt es sich um eine Endlosschleife. Durch fork() entsteht
+       immer wieder ein neuer Prozess.
+
+       Nach 1 Generation sind es: 2 Prozesse
+       Nach 2 Generationen: 4 Prozesse
+       Nach 3 Generationen: 8 Prozesse
+       Und nach n Generationen: 2 hoch n Prozesse
+<strong><span style="color:red;">Stimmt. 1P</span></strong>
+	
+    b) Die Forkbomb allgemein auch Rabbit genannt erzeugt Prozesse die exponentiell zunehmen. Selbst wenn diese keinen komplexen Code enthalten, ist ein Arbeiten nach wenigen Sekunden unm&ouml;glich, da alle verf&uuml;gbaren Systemressouren verbraucht sind. Dies k&ouml;nnte unbeabsichtigt vom Nutzer geschehen oder von einem Angreifer genutzt werden. 
+
+Daher ist es ratsam die maximale Anzahl der Prozesse zu limitieren.
+1. Beispiel : tux        hard     nproc    100
+2. Beispiel : @guests     hard     nproc   2000
+<strong><span style="color:red;">Richtig. 1P</span></strong>
+
+
+<span style="color:#ff8c00;">(NL)</span>
+</span></pre></body></html>

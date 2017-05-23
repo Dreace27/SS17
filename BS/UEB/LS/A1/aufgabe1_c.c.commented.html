@@ -1,0 +1,46 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;">#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pwd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;string.h&gt;
+
+
+int main(void){
+    <strong><span style="color:red;">// Jetzt keine argc-Abfrage mehr?
+    // &Uuml;brigens - hier fehlen immer noch die Fehlerbehandlungen.</span></strong>
+    struct passwd *pwd = getpwuid(geteuid());
+    char hostname[HOST_NAME_MAX] = &quot;\0&quot;;
+    char path[PATH_MAX] = &quot;\0&quot;;
+    char method[256];
+    char args[256];
+
+    gethostname(hostname, HOST_NAME_MAX);
+    getcwd(path, PATH_MAX);
+
+    int newPid = 0;    
+    int status = 0;
+    int rVal = 0;
+
+    while(1){
+        printf(&quot;%s@%s %s$ &quot;, pwd-&gt;pw_name, hostname, path);
+        scanf(&quot;%s %s&quot;, <span style="background-color:yellow;">&amp;</span>method, <span style="background-color:yellow;">&amp;</span>args); <strong><span style="color:red;">// Der selbe Fehler. Ohne kompiliert es und funktioniert sogar ungef&auml;hr, allerdings nur f&uuml;r ls...</span></strong>
+        if(strcmp(method,&quot;ls&quot;) == 0){ <strong><span style="color:red;">// WIESO?!</span></strong>
+            newPid = fork();
+            if(newPid == 0){
+                rVal = execlp(method, args, &quot;.&quot;); <strong><span style="color:red;">// Der Befehlsname muss zweimal &uuml;bergeben werden, siehe Folien. Und wieder, wieso der Punkt? Stattdessen h&auml;tte NULL hingemusst.</span></strong>
+                if(rVal &lt; 0){
+                    printf(&quot;passed illegal arguments\n&quot;);
+                }
+            }else{
+                waitpid(newPid, &amp;status, 0);
+            }
+        }else{
+            printf(&quot;passed illegal arguments\n&quot;);
+        }
+    }
+    return 1;
+}
+</span></pre></body></html>

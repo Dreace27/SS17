@@ -1,0 +1,30 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;"><strong><span style="color:red;">// Bitte kommentiert euren Code, dann kann ich euch bei Fehlern evt. noch mehr Punkte geben, wenn ihr den richtigen Gedanken hattet.</span></strong>
+
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pwd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;limits.h&gt;
+
+int main(void){
+    <strong><span style="color:red;">// Fehlerbehandlungen... Leute, denkt an die Fehlerbehandlungen!</span></strong>
+    struct passwd *pwd = getpwuid(geteuid());
+    char hostname[HOST_NAME_MAX] = &quot;\0&quot;;
+    char path[PATH_MAX] = &quot;\0&quot;;
+    char method[256];
+    char args[256];
+
+    gethostname(hostname, HOST_NAME_MAX);
+    getcwd(path, PATH_MAX);
+
+    while(1){
+        printf(&quot;%s@%s %s$ &quot;, pwd-&gt;pw_name, hostname, path);
+        scanf(&quot;%s %s&quot;, <span style="background-color:yellow;">&amp;</span>method, <span style="background-color:yellow;">&amp;</span>args); <strong><span style="color:red;">// Feldl&auml;nge begrenzen (%255s), sonst &Uuml;berlaufgefahr!</span></strong>
+        printf(&quot;Befehl: %s\nArgument: %s\n&quot;, <span style="background-color:yellow;">&amp;</span>method, <span style="background-color:yellow;">&amp;</span>args); <strong><span style="color:red;">// Strings sind Arrays und damit schon Zeiger - der Adressoperator ist nicht mehr n&ouml;tig! Ohne kompiliert das Programm auch.
+        // Standardeingabe leeren!</span></strong>
+    }
+
+    return 0;
+}
+</span></pre></body></html>

@@ -1,0 +1,52 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;">#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pwd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;string.h&gt;
+
+
+int main(int argc, char **argv){
+    if(argc &lt; 3){ <strong><span style="color:red;">// Warum &uuml;berpr&uuml;ft ihr denn jetzt die Kommandozeilenparameter?!</span></strong>
+        struct passwd *pwd = getpwuid(geteuid());
+        char hostname[HOST_NAME_MAX] = &quot;\0&quot;;
+        char path[PATH_MAX] = &quot;\0&quot;;
+        char method[256];
+        char args[256];
+
+        gethostname(hostname, HOST_NAME_MAX);
+        getcwd(path, PATH_MAX);
+
+        while(1){
+            printf(&quot;%s@%s %s$ &quot;, pwd-&gt;pw_name, hostname, path); <strong><span style="color:red;">// Hier verwendet ihr die Strings doch korrekt... Warum nicht auch an den anderen Stellen so?</span></strong>
+            scanf(&quot;%s %s&quot;, &amp;method, &amp;args);
+            printf(&quot;Befehl: %s\nArgument: %s\n&quot;, &amp;method, &amp;args);
+            if(strcmp(method,&quot;ls&quot;) != 0 || strcmp(args, &quot;-al&quot;) != 0){
+                printf(&quot;You did not type ls -al\n&quot;); 
+<strong><span style="color:red;">/*
+&Auml;hm.
+&quot;Wenn ihr die erste Teilaufgabe nicht gel&ouml;st habt, k&ouml;nnt ihr davon ausgehen, dass als Befehl ls
+und als Argument -al &uuml;bergeben wurde.&quot;
+Das hei&szlig;t nicht, dass ihr &uuml;berpr&uuml;fen sollt, ob ls -al eingegeben wurde...
+*/</span></strong>
+            }else{
+                execlp(method, args, &quot;.&quot;); <strong><span style="color:red;">// Was soll der Punkt? execlp braucht als letzten Parameter ein NULL.
+                // Auch hier wieder: Fehlerbehandlung!</span></strong>
+            }
+        }
+    }else if(argc == 3){
+        if(strcmp(argv[1],&quot;ls&quot;) != 0 || strcmp(argv[2], &quot;-al&quot;)){
+            printf(&quot;You did not type ls -al\n&quot;);
+            return 1;
+        }else{
+            execlp(argv[1], argv[2]);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+<strong><span style="color:red;">// Ihr h&auml;ttet eigentlich nur am Ende der while-Schleife von der a) ein passendes execlp hinzuf&uuml;gen m&uuml;ssen... Ich habe keine Ahnung, was ihr hier jetzt machen wolltet und da ihr auch nicht kommentiert habt, kann ich euch da leider keine Punkte f&uuml;r geben.</span></strong>
+
+</span></pre></body></html>
