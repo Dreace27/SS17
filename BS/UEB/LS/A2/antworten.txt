@@ -31,7 +31,7 @@
     aktiv wartet. Das Abarbeiten erfolgt dann anhand der Nummern. Also sobald ein Prozess fertig ist verfällt dessen Nummer
     und der nächste mit der niedrigsten Zahl ist an der Reihe.
 
-    Allerdings birgt das aktive Warten auch einige Probleme, denn die aktiv wartetenden Prozesse können selbst keine Änderungen der
+    Allerdings birgt das aktive Warten auch einige Probleme, denn die aktiv wartenden Prozesse können selbst keine Änderungen der
     Bedingungen vornehmen obwohl sie aktiv sind. Dadurch werden unnötig Ressourcen verbraucht und sie behindern dadurch andere
     Prozesse. Dadurch wird unnötig Prozessorzeit verschwendet und der Prozess schadet sich letztendlich selbst da dieser durch
     die Ressourcenverschwendung länger warten muss bis die Bedingung des Prozesses, der gerade an der Reihe ist, erfüllt ist.
