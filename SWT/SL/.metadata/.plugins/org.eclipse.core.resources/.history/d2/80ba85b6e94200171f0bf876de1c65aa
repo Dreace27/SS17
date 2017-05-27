@@ -21,6 +21,8 @@ import exercise.pickups.PickUpLife;
 import exercise.pickups.PickUpRocket;
 import exercise.pickups.PickUpSpriteFactory;
 import exercise.pickups.ScriptSpawnPickUps;
+import exercise.hud.PickUpCounter;
+
 
 public class SwtStarFighter implements GameInitializer {
 	
@@ -67,6 +69,8 @@ public class SwtStarFighter implements GameInitializer {
 		player.addPlayerObserver(hudPickUpRocket);
 		view.addHudElement(hudPickUpRocket);
 		
+		
+		
 		// These display the number of LaserUpgrades of certain types owned by the player
 		HudLaserUpgrade hudUpgradeDamage = new HudLaserUpgrade(view, LaserUpgradeDamage.class);
 		player.addPlayerObserver(hudUpgradeDamage);
@@ -86,10 +90,29 @@ public class SwtStarFighter implements GameInitializer {
 		
 		// This script will create PickUps for the Player after destroying enough monsters
 		ScriptSpawnPickUps spawnPickUps = new ScriptSpawnPickUps();
-		spawnPickUps.definePickUp( 450,	g -> new PickUpLife());		// every 450 score spawn life +1
-		spawnPickUps.definePickUp( 750,	g -> new PickUpRocket());	// every 750 score spawn rockets
+		spawnPickUps.definePickUp( 100,	g -> new PickUpLife());		// every 450 score spawn life +1
+		spawnPickUps.definePickUp( 150,	g -> new PickUpRocket());	// every 750 score spawn rockets
 		spawnPickUps.definePickUp(1000,	g -> new PickUpDamage());	// every 1000 score spawn a laser upgrade for damage
 		game.getPlayer().addPlayerObserver(spawnPickUps);
+		
+		
+		
+		//Code for the exercise
+		//These should Display the PickUpCounter for Task 14
+		PickUpCounter pickUpCounter = new PickUpCounter(PickUpLife.class);
+	    player.addPlayerObserver(pickUpCounter);
+		view.addHudElement(pickUpCounter);
+		
+		PickUpCounter pickUpCounter1 = new PickUpCounter(PickUpRocket.class);
+	    player.addPlayerObserver(pickUpCounter1);
+		view.addHudElement(pickUpCounter1);
+		
+		PickUpCounter pickUpCounter2 = new PickUpCounter(PickUpDamage.class);
+	    player.addPlayerObserver(pickUpCounter2);
+		view.addHudElement(pickUpCounter2);
+		
+		
+		
 	}
 	
 }
