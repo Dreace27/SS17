@@ -2,4 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="exercise.hud.HudPickUpCount"/>
 <fullyQualifiedTypeName name="exercise.monsters.MonsterSpeedDown"/>
+<fullyQualifiedTypeName name="edu.udo.cs.swtsf.core.TargetObserver"/>
+<fullyQualifiedTypeName name="apple.laf.JRSUIConstants.SegmentPosition"/>
 </qualifiedTypeNameHistroy>
