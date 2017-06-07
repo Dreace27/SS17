@@ -20,17 +20,18 @@ Damit es zu einem Deadlock kommen kann müssen 4 Bedingungen gelten. Dazu gehör
     Prozessen gibt, in der jeder Prozess mindestens eine Ressource hält die dann von
     einem anderen Prozess gefordert wird. (Bsp.: Die fünf speisenden Philosophen BS:06 F22)
 
-In unserer Aufgabe kann es unter Beachtung der o.g. 4 Bedingungen zu Deadlocks führen, denn
-es kann 1.) zu "mutual exclusions" kommen, da Fäden bzw. Threads auf die selben Ressourcen
+In unserer Aufgabe können unter Beachtung der o.g. 4 Bedingungen Deadlocks auftreten,
+denn es kommen 1.) "mutual exclusions" vor, da Fäden bzw. Threads auf die selben Ressourcen
 zugreifen.
-Außerdem kann 2.) "hold and wait" entstehen, denn jeder Faden belegt bei der durchführung
-Speicher und kann auch mehr anfordern, falls dieses bereits belegt ist, wird der Faden
+Außerdem kann 2.) "hold and wait" entstehen, denn jeder Faden belegt bei der Durchführung
+Speicher und kann auch mehr anfordern. Falls dieses bereits belegt ist wird der Faden
 "schlafen gelegt" wodurch der bereits zugeteilte Speicher beim schlafenden Faden bleibt.
 Desweiteren gilt 3.) "no preemption", da jeder Faden erst den gesamten für sich belegten
 Speicher wieder abgibt wenn dieser fertig ist.
 Zuletzt kann auch eine 4.) "circular wait" Situtation auftreten, denn jeder Faden
 belegt Speicher und kann neuen anfordern wodurch mehrere Threads den belegten Speicher
-vom nächsten anfordern können.
+vom nächsten anfordern können. Somit kann eine Kette enstehen in der jeder Thread auf den
+nächsten wartet.
 
 
 2.)
