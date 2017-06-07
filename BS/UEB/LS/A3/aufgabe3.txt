@@ -26,11 +26,11 @@ zugreifen.
 Außerdem kann 2.) "hold and wait" entstehen, denn jeder Faden belegt bei der Durchführung
 Speicher und kann auch mehr anfordern. Falls dieses bereits belegt ist wird der Faden
 "schlafen gelegt" wodurch der bereits zugeteilte Speicher beim schlafenden Faden bleibt.
-Desweiteren gilt 3.) "no preemption", da jeder Faden erst den gesamten für sich belegten
+Des weiteren gilt 3.) "no preemption", da jeder Faden erst den gesamten für sich belegten
 Speicher wieder abgibt wenn dieser fertig ist.
-Zuletzt kann auch eine 4.) "circular wait" Situtation auftreten, denn jeder Faden
+Zuletzt kann auch eine 4.) "circular wait" Situation auftreten, denn jeder Faden
 belegt Speicher und kann neuen anfordern wodurch mehrere Threads den belegten Speicher
-vom nächsten anfordern können. Somit kann eine Kette enstehen in der jeder Thread auf den
+vom nächsten anfordern können. Somit kann eine Kette entstehen in der jeder Thread auf den
 nächsten wartet.
 
 
