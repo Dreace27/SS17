@@ -1,0 +1,111 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+#include &lt;pthread.h&gt;
+
+#include &quot;aufgabe2.h&quot;
+
+#include &quot;workingset.h&quot;
+
+// needed to carry out our beloved error-handling <span style="color:red;"><span style="color:red;"><strong><span style="color:red;">&lt;3</span></strong></span></span>
+#include &lt;errno.h&gt;
+
+WorkingSet tasks[TASK_NUM];
+
+// Wieviele Aufgaben wurden erledigt?
+int global_done;
+
+// Wieviel hat der jeweilige Thread erledigt?
+int thread_done[THREAD_NUM];
+
+// Die Eingabewerte der Berechnung
+int input_values[ARRAY_SIZE];
+
+// Das Ergebnis der Berechnung
+int results[ARRAY_SIZE];
+
+
+// Die Thread-Funktion
+void* run(void *args)
+{ 
+    int *thread_counter = (int*)args;
+    
+    while(global_done &lt; TASK_NUM)
+    {
+        // Eine Aufgabe auswuerfeln
+        int task_num = rand() % TASK_NUM;
+
+        // Pointer auf das WorkingSet aufloesen
+        WorkingSet *task = &amp;tasks[task_num];
+        
+        // check whether it&#39;s already been dealt with
+        // and do the task eventually
+        // otherwise a new random task will bes selected
+        if(task-&gt;done != 1){
+            do_WorkingSet(task);
+            ++global_done;
+            thread_done[thread_counter[0]]<span style="background-color:yellow;"> = 1</span>; <strong><span style="color:red;">// Den Z&auml;hler besser erh&ouml;hen statt auf 1 zu setzen ;)</span></strong>
+        }
+    }
+    // exiting thread
+    pthread_exit(NULL);
+}
+void do_WorkingSet(WorkingSet *workingSet) {
+    int i;
+    for(i=0; i&lt;workingSet-&gt;length; ++i){
+        // the output shall be the result of the operation called with the input and the workingset
+        workingSet-&gt;output[i] = workingSet-&gt;operation(<span style="background-color:yellow;">workingSet-&gt;input[i]</span>, workingSet); <strong><span style="color:red;">// operation soll den Index des zu bearbeitenden Objektes bekommen, richtig w&auml;re operation(i, workingSet) --&gt; Aufgabenstellung</span></strong>
+    }
+    // setting the flag
+    workingSet-&gt;done = 1;
+}
+/* Pseudozufallszahlengenerator initialisieren, Arrays befuellen */
+int main(int argc, char **argv)
+{
+    // Initialisiere die Datenkorruption
+    initialize();
+    
+    // Hier sollte euer Code hin
+
+
+    // List needed for the threads (might aswell initialize a list instead of a new thread in each loop, that cannot be 
+    // referenced, if neccessary)
+    pthread_t   threadList[THREAD_NUM];
+    int         status;
+    // loop initialzing threads
+    int i;
+    for(i=0; i&lt;THREAD_NUM; ++i){
+        // @thread          : thread at index i
+        // @attr            : None
+        // @start_routine   : run-method
+        // @arg             : index i of thread
+        status = pthread_create(&amp;threadList[i], NULL, &amp;run, <span style="background-color:yellow;">&amp;i</span>); <strong><span style="color:red;">// Geht nicht, i wird ja immer weiter ge&auml;ndert, w&auml;hrend der Thread schon l&auml;uft. Alternativ gleich &amp;thread_done[i] &uuml;bergeben.</span></strong>
+        if(status != 0){
+            // Fehlerbehandlung
+            if(errno == EINTR) continue; <strong><span style="color:red;">// &Auml;h okay?</span></strong>
+            perror(&quot;An error occured while creating a thread&quot;);
+            exit(EXIT_FAILURE);
+        }
+    }
+    // loop to call join on each thread
+    for(i=0; i&lt;THREAD_NUM; ++i){
+        // @thread  : thread at index i
+        // @attr    : None
+        status = pthread_join(threadList[i], NULL);
+        if(status != 0){
+            // Fehlerbehandlung
+            if(errno == EINTR) continue;
+            perror(&quot;An error occured while joining a thread&quot;);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+
+    // Pruefe auf Datenkorruption
+    test_results();
+}
+</span></pre>
+<p>
+	<strong><span style="color:red;">2 / 3 P</span></strong></p>
+</body></html>

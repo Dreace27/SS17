@@ -1,0 +1,130 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+#include &lt;pthread.h&gt;
+
+#include &quot;aufgabe2.h&quot;
+
+#include &quot;workingset.h&quot;
+
+// needed to carry out our beloved error-handling
+#include &lt;errno.h&gt;
+
+WorkingSet tasks[TASK_NUM];
+
+// Wieviele Aufgaben wurden erledigt?
+int global_done;
+
+// Wieviel hat der jeweilige Thread erledigt?
+int thread_done[THREAD_NUM];
+
+// Die Eingabewerte der Berechnung
+int input_values[ARRAY_SIZE];
+
+// Das Ergebnis der Berechnung
+int results[ARRAY_SIZE];
+
+// added
+pthread_mutex_t lock;
+
+// Die Thread-Funktion
+void* run(void *args)
+{ 
+    int *thread_counter = (int*)args;
+    
+    int status = 0;
+    while(global_done &lt; TASK_NUM)
+    {
+        // Eine Aufgabe auswuerfeln
+        int task_num = rand() % TASK_NUM;
+
+        // Pointer auf das WorkingSet aufloesen
+        WorkingSet *task = &amp;tasks[task_num];
+
+        status = pthread_mutex_lock(&amp;lock); <strong><span style="color:red;">// Das sichert den kritischen Bereich zwar ab (mit euren Fehler aus a) korrigiert wird die Aufgabe ohne Korruption bearbeitet), zers&ouml;rt allerdings vollkommen die Parallelit&auml;t - es kann immer nur ein WorkingSet auf einmal bearbeitet werden. Sinnvoller w&auml;re z.B. ein eigenes Mutex pro WorkingSet gewesen.</span></strong>
+        if(status != 0){
+            // Fehlerbehandlung
+            if(errno == EINTR) continue;
+            perror(&quot;An error occured while locking the mutex&quot;);
+            exit(EXIT_FAILURE);
+        }
+        // check whether it&#39;s already been dealt with
+        // and do the task eventually
+        // otherwise a new random task will bes selected
+        if(task-&gt;done != 1){
+            do_WorkingSet(task);
+            ++global_done;
+            thread_done[thread_counter[0]] = 1;
+        }
+        status = pthread_mutex_unlock(&amp;lock);
+        if(status != 0){
+            // Fehlerbehandlung
+            if(errno == EINTR) continue;
+            perror(&quot;An error occured while unlocking the mutex&quot;);
+            exit(EXIT_FAILURE);
+        }
+    }
+    // exiting thread
+    pthread_exit(NULL);
+}
+void do_WorkingSet(WorkingSet *workingSet) {
+    int i;
+    for(i=0; i&lt;workingSet-&gt;length; ++i){
+        // the output shall be the result of the operation called with the input and the workingset
+        workingSet-&gt;output[i] = workingSet-&gt;operation(workingSet-&gt;input[i], workingSet);
+    }
+    // setting the flag
+    workingSet-&gt;done = 1;
+}
+/* Pseudozufallszahlengenerator initialisieren, Arrays befuellen */
+int main(int argc, char **argv)
+{
+    // Initialisiere die Datenkorruption
+    initialize();
+    
+    // Hier sollte euer Code hin
+
+
+    // List needed for the threads (might aswell initialize a list instead of a new thread in each loop, that cannot be 
+    // referenced, if neccessary)
+    pthread_t   threadList[THREAD_NUM];
+    int         status;
+    pthread_mutex_init(&amp;lock, NULL); <strong><span style="color:red;">// Auch hier muss eine Fehlerbehandlung hin.</span></strong>
+    // loop initialzing threads
+    int i;
+    for(i=0; i&lt;THREAD_NUM; ++i){
+        // @thread          : thread at index i
+        // @attr            : None
+        // @start_routine   : run-method
+        // @arg             : index i of thread
+        status = pthread_create(&amp;threadList[i], NULL, &amp;run, &amp;i);
+        if(status != 0){
+            // Fehlerbehandlung
+            if(errno == EINTR) continue;
+            perror(&quot;An error occured while creating a thread&quot;);
+            exit(EXIT_FAILURE);
+        }
+    }
+    // loop to call join on each thread
+    for(i=0; i&lt;THREAD_NUM; ++i){
+        // @thread  : thread at index i
+        // @attr    : None
+        status = pthread_join(threadList[i], NULL);
+        if(status != 0){
+            // Fehlerbehandlung
+            if(errno == EINTR) continue;
+            perror(&quot;An error occured while joining a thread&quot;);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    <strong><span style="color:red;">// pthread_mutex_destroy?</span></strong>
+
+    // Pruefe auf Datenkorruption
+    test_results();
+}
+</span></pre>
+<p>
+	<strong><span style="color:red;">1 / 3 P</span></strong></p>
+</body></html>

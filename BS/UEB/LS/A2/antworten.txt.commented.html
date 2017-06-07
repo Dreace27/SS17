@@ -1,0 +1,48 @@
+<html><body><pre class="autowrap">
+<span style="font-family: monospace; font-size:medium;">&Uuml;bungsaufgabe 2:
+
+1. Scheduling:
+
+1.)
+
++---+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+| A | C C C I I I I             C C C I I I I             C C C I | C: Prozess nutzt die CPU
+| B |           C C C C C C I I I I I     C C C C C C I I I I I   | I: Prozess f&uuml;hrt I/O-Operationen durch
+| C |       C C I I         C C I I   C C I I         C C I I   C |
++---+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+      1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+<strong><span style="color:red;">// Nicht ganz - die Prozesse sind alle gleichzeitig in der Ready-List und deshalb f&auml;ngt der Scheduler mit dem k&uuml;rzesten - C - an. Ansonsten aber richtig.</span></strong>
+
+
+2.) Das SPN Scheduling Verfahren birgt das Problem, dass die Vorhersage der Laufzeiten nicht genau bestimmt werden kann.
+    Au&szlig;erdem laufen besonders CPU-lastige Prozesse in Gefahr in die &quot;Aushungerung&quot; oder auch &quot;starvation&quot; zu geraten.
+    Hier kommt der Prozess fast nie zur Ausf&uuml;hrung da die kurzen bzw. Leichtgewichtigen Prozesse bevorzugt werden.
+<strong><span style="color:red;">Jup.
+1,5P</span></strong>
+
+
+2. Synchronisation:
+
+1.) Race-Conditions treten auf wenn verschiedene Prozesse gleichzeitig auf Datenbest&auml;nde zugreifen und mindestens einer
+    dieser Prozesse die Daten ver&auml;ndert. So entsteht die Situation, dass gleichzeitig gelesen und umgeschrieben wird.
+    Der Wert den die Prozesse dann erhalten h&auml;ngt von der Reihenfolge ab wie diese auf die Daten zugreifen. Dadurch entsteht
+    die Gefahr, dass die Ergebnisse falsch oder unvorhersehbar sein k&ouml;nnen.
+<strong><span style="color:red;">Richtig. 1P</span></strong>
+
+2.) Unter aktiven Warten versteht man das Zusammenspiel von Prozessen welche durch warten miteinander kooperieren. Die Reihenfolge
+    der Abarbeitung wird somit geregelt wodurch es zu keiner Gleichzeitigen Ausf&uuml;hrung von Aktionen kommt welche z.B. bei den
+    o.g. Race-Conditions auftreten.
+    Dieses Verfahren wendet z.B der s.g. &quot;B&auml;ckerei Algorithmus&quot; an in dem jeder Prozess eine Wartenummer erh&auml;lt und somit
+    aktiv wartet. Das Abarbeiten erfolgt dann anhand der Nummern. Also sobald ein Prozess fertig ist verf&auml;llt dessen Nummer
+    und der n&auml;chste mit der niedrigsten Zahl ist an der Reihe.
+
+    Allerdings birgt das aktive Warten auch einige Probleme, denn die aktiv wartenden Prozesse k&ouml;nnen selbst keine &Auml;nderungen der
+    Bedingungen vornehmen obwohl sie aktiv sind. Dadurch werden unn&ouml;tig Ressourcen verbraucht und sie behindern dadurch andere
+    Prozesse. Dadurch wird unn&ouml;tig Prozessorzeit verschwendet und der Prozess schadet sich letztendlich selbst da dieser durch
+    die Ressourcenverschwendung l&auml;nger warten muss bis die Bedingung des Prozesses, der gerade an der Reihe ist, erf&uuml;llt ist.
+<strong><span style="color:red;">Ja, also der Knackpunkt am aktiven Warten ist ja, dass der Zustand des Locks immer wieder aktiv abgefragt wird, was ihr gar nicht erw&auml;hnt. Weil sch&ouml;n ausf&uuml;hrlich trotzdem 1P</span></strong>
+</span></pre>
+<p>
+	<span style="color:#ff8c00;"><strong><span style="color:red;">Insgesamt 3,5 / 4 P</span></strong><br />
+	(NL)</span></p>
+</body></html>
