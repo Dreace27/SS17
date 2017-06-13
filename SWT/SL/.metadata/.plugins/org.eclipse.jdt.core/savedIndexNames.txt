@@ -1,6 +1,5 @@
 INDEX VERSION 1.130+/Users/Frodo/GitHub/SS17/SWT/SL/.metadata/.plugins/org.eclipse.jdt.core
 404199878.index
-3463908269.index
 4238018145.index
 1969767409.index
 1315525803.index
