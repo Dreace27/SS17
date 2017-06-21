@@ -12,7 +12,7 @@
 |A A A A A C C C C C - A A C C -| D fordert 2 MB -> abgelehnt
  1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
 
- Die Anfrage "D fordert 2 MB" wird abgelehnt da kein freier Speicherblock für 2MB
+ Die Anfrage "D fordert 2 MB" wird abgelehnt da kein freier Speicherblock für 2 MB
  zur Verfügung steht.
 
 
